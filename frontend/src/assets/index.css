@@ -1,0 +1,304 @@
+/* =========================================================
+   AI Crop Health - Design System & Styling Framework
+   Luxury Theme: Crisp White & Royal Gold Outlining
+   ========================================================= */
+
+:root {
+  /* Brand Color Palette: Metallic Gold Hierarchy */
+  --gold-50:  #fdfcf7;
+  --gold-100: #faf5e6;
+  --gold-200: #f4e8c1;
+  --gold-300: #ebd692;
+  --gold-400: #dfc063;
+  --gold-500: #d4af37; /* Metallic Royal Gold */
+  --gold-600: #b8860b; /* Rich Dark Goldenrod */
+  --gold-700: #996515; /* Bronze Gold */
+  --gold-800: #7c4f13;
+  --gold-900: #633e12;
+  --gold-950: #381f06;
+
+  --accent-gold: #d4af37;
+  --accent-gold-light: #fef08a;
+  --accent-gold-border: rgba(212, 175, 55, 0.45);
+  --accent-gold-border-strong: #d4af37;
+
+  --accent-emerald: #059669;
+  --accent-blue: #0284c7;
+  --accent-rose: #e11d48;
+  --accent-lime: #65a30d;
+
+  /* Backward Compatibility Aliases mapped to White & Gold */
+  --emerald-950: #633e12;
+  --emerald-900: #7c4f13;
+  --emerald-800: #996515;
+  --emerald-700: #b8860b;
+  --emerald-600: #c59b27;
+  --emerald-500: #d4af37;
+  --emerald-400: #b8860b;
+  --emerald-300: #996515;
+  --emerald-100: #faf5e6;
+  --emerald-50:  #fdfcf7;
+
+  /* White Theme Surfaces */
+  --bg-dark: #faf9f6;             /* Warm alabaster canvas */
+  --bg-surface: #ffffff;          /* Crisp Pure White */
+  --bg-surface-elevated: #ffffff;  /* Elevated Pure White */
+  --bg-glass: rgba(255, 255, 255, 0.92); /* Crisp White Glass over visible foliage */
+  --bg-subtle: #fbf9f4;           /* Warm Champagne Tint */
+  --border-glass: rgba(212, 175, 55, 0.45); /* Distinct Gold Outlining */
+  --border-subtle: rgba(212, 175, 55, 0.25);
+  --border-gold-solid: #d4af37;
+
+  /* Typography Colors - High Contrast on White */
+  --text-primary: #1c1917;        /* Deep Charcoal / Obsidian */
+  --text-secondary: #44403c;      /* Warm Charcoal */
+  --text-muted: #78716c;          /* Elegant Warm Gray */
+  --text-gold: #b8860b;           /* Polished Gold */
+  --text-inverse: #ffffff;
+
+  /* Fonts */
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Shadows & Ambient Gold Glow */
+  --shadow-glow: 0 0 24px rgba(212, 175, 55, 0.25);
+  --shadow-card: 0 8px 30px -4px rgba(212, 175, 55, 0.14), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-gold-hover: 0 0 25px rgba(212, 175, 55, 0.35), 0 12px 35px rgba(184, 134, 11, 0.15);
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+}
+
+/* Reset & Global Base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* =========================================================
+   Atmospheric Plant Backdrop & Subtle Golden Sunlight Veil
+   ========================================================= */
+.plant-bg-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/plant-bg.jpg');
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+  filter: blur(4px) saturate(1.28) contrast(1.08) brightness(1.02);
+  transform: scale(1.03); /* Keeps edges smooth while blur is gentle and leaves are clearly visible */
+  z-index: 0;
+  pointer-events: none;
+}
+
+.plant-bg-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(253, 250, 243, 0.32) 50%, rgba(255, 253, 247, 0.38) 100%),
+    radial-gradient(circle at 15% 15%, rgba(212, 175, 55, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(184, 134, 11, 0.08) 0%, transparent 50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* White Glassmorphism Containers with Gold Outlining */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glass-panel:hover {
+  border-color: var(--gold-500);
+  box-shadow: var(--shadow-gold-hover);
+  transform: translateY(-2px);
+}
+
+.glass-card {
+  background: #ffffff;
+  backdrop-filter: blur(10px);
+  border: 1.5px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+  transition: all 0.25s ease;
+}
+
+.glass-card:hover {
+  border-color: var(--gold-500);
+  box-shadow: var(--shadow-gold-hover);
+}
+
+/* Gold Outline Utilities */
+.gold-outline {
+  border: 1.5px solid var(--gold-500) !important;
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.22);
+}
+
+.gold-badge {
+  background: #ffffff;
+  border: 1px solid var(--gold-500);
+  color: var(--gold-700);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.15);
+}
+
+/* Typography Utilities */
+.text-gradient {
+  background: linear-gradient(135deg, #b8860b 0%, #d4af37 50%, #996515 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #b8860b 0%, #d4af37 40%, #eab308 70%, #996515 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Button Styles - White & Gold Outlining */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--radius-full);
+  border: 1.5px solid #fef08a;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.35);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.5);
+  background: linear-gradient(135deg, #dfc063 0%, #c59b27 100%);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: #ffffff;
+  color: #996515;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--radius-full);
+  border: 1.5px solid #d4af37;
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.15);
+  backdrop-filter: blur(6px);
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: #faf5e6;
+  border-color: #b8860b;
+  color: #7c4f13;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.3);
+}
+
+/* Container & Layout */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* Ribbon Banner */
+.mock-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #996515;
+  background: #ffffff;
+  border: 1.5px solid #d4af37;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.15);
+}

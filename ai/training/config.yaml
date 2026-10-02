@@ -1,0 +1,26 @@
+# AI Model Training Configuration Blueprint
+model:
+  name: "ResNet50_CropHealth"
+  backbone: "resnet50"
+  num_classes: 38
+  pretrained: true
+
+dataset:
+  name: "PlantVillage"
+  image_size: 224
+  batch_size: 32
+  num_workers: 4
+  val_split: 0.2
+
+training:
+  epochs: 25
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  optimizer: "adamw"
+  scheduler: "cosine_annealing"
+
+augmentation:
+  random_crop: true
+  horizontal_flip: true
+  rotation_degrees: 15
+  color_jitter: 0.2
