@@ -5,11 +5,30 @@
 [![PyTorch](https://img.shields.io/badge/AI%20Vision-PyTorch%202.0+-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org)
 [![ESP32](https://img.shields.io/badge/IoT%20Hardware-ESP32%20FreeRTOS-E7352C?logo=espressif&logoColor=white)](https://www.espressif.com)
 [![TypeScript](https://img.shields.io/badge/Language-TypeScript%205.5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Theme](https://img.shields.io/badge/Theme-White%20%26%20Gold%20Luxury-D4AF37)](https://leafcheck.agri.io)
+[![Theme](https://img.shields.io/badge/Theme-White%20%26%20Gold%20Luxury-D4AF37)](https://leafcheck.agri.**Leaf Check (AI Crop Health)** is an intelligent precision agriculture platform that unites **Deep Learning Computer Vision**, **Physical IoT Soil Telemetry**, an **Agronomic Multi-Domain Fusion Engine**, and a **Multilingual Farmer AI Assistant** (supporting Telugu, English, Tamil, Kannada, Hindi, and Malayalam).
 
-**Leaf Check** is an intelligent agricultural intelligence platform that unites **Deep Learning Computer Vision**, **Physical IoT Soil Telemetry**, an **Agronomic Recommendation Fusion Engine**, and a **Multilingual Farmer AI Assistant** (supporting Telugu, English, Tamil, Kannada, Hindi, and Malayalam).
-
-Designed with a high-end **White and Gold Outlining** luxury aesthetic over a soft blurred botanical background, Leaf Check provides real-time crop disease diagnosis and soil health insights with farmer-friendly, preventative guidance.
+### 🔄 End-to-End Processing Pipeline
+```
+┌──────────────┐     ┌──────────────┐     ┌───────────────────────┐
+│ Plant Image  │ ──> │ AI Vision    │ ──> │ Crop & Disease        │
+│ (Leaf Photo) │     │ (PyTorch)    │     │ Prediction + Grad-CAM │
+└──────────────┘     └──────────────┘     └──────────┬────────────┘
+                                                     │
+┌──────────────┐     ┌──────────────┐                │
+│ ESP32 IoT    │ ──> │ Ingestion &  │ ───────────────┤
+│ Soil Probes  │     │ Soil Health  │                │
+└──────────────┘     └──────────────┘                ▼
+                                          ┌───────────────────────┐
+                                          │ Combined Health       │
+                                          │ Multi-Domain Analysis │
+                                          └──────────┬────────────┘
+                                                     ▼
+                                          ┌───────────────────────┐
+                                          │ Actionable Agronomic  │
+                                          │ Fused Recommendations │
+                                          │ + Farmer AI Assistant │
+                                          └───────────────────────┘
+```
 
 ---
 
@@ -26,7 +45,7 @@ Designed with a high-end **White and Gold Outlining** luxury aesthetic over a so
                  └─────────────────────────┬────────────────────────┘
                                            │ HTTP REST /api
                                            ▼
-                                 [ FASTAPI BACKEND ]
+                                  [ FASTAPI BACKEND ]
                  ┌──────────────────────────────────────────────────┐
                  │  - Pydantic v2 Request Validation & Error Rails │
                  │  - Agronomic Multi-Domain Fusion Engine          │
@@ -122,47 +141,69 @@ Leaf Check features an automated **Demo Mode** with preloaded sample images and 
 
 ---
 
-## 🏭 Production Deployment
+## 🏭 Deployment Guide
 
-### 1. Production Build
-```bash
-# Compile and optimize frontend bundle
-npm --prefix frontend run build
-
-# Start production ASGI server with multi-worker support
-python backend/prod_server.py
+### Deployment Architecture
+```
+┌─────────────────────────────────┐
+│           GitHub Repo           │
+│         AI Crop Health          │
+└────────────────┬────────────────┘
+                 │ Source Code
+                 ▼
+┌─────────────────────────────────┐
+│             Vercel              │
+│       React/Vite Frontend       │
+└────────────────┬────────────────┘
+                 │ API Requests (VITE_API_BASE_URL)
+                 ▼
+┌─────────────────────────────────┐
+│        Backend / FastAPI        │
+│        AI + Sensor API          │
+│   (Render / Railway / Cloud)    │
+└────────────────┬────────────────┘
+                 │ Ingestion / Modbus
+                 ▼
+┌─────────────────────────────────┐
+│      ESP32 + Soil Sensors       │
+└─────────────────────────────────┘
 ```
 
-### 2. Environment Configuration
-Copy `.env.example` to `.env` and configure:
+### 1. Frontend Deployment (Vercel)
+- **Framework Preset**: Vite
+- **Root Directory**: `frontend` (or project root `./` with included `vercel.json`)
+- **Build Command**: `npm run build` (or `cd frontend && npm install && npm run build`)
+- **Output Directory**: `dist` (or `frontend/dist`)
+- **Environment Variables**:
+  - `VITE_API_BASE_URL`: `https://YOUR-BACKEND-URL` (or `/api` in local/mock demo mode)
+  - `VITE_DEMO_MODE`: `true` (enables seamless fallback telemetry when field hardware is offline)
+  - `VITE_APP_NAME`: `Leaf Check`
+- **SPA Rewrites**: Handled automatically by `vercel.json` to route all paths to `/index.html`.
+
+### 2. Backend Deployment (FastAPI + PyTorch)
+Deploy the backend on a Python-compatible container platform (Render, Railway, Fly.io, or VPS):
+- **Start Command**: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 4`
+- **Python Version**: 3.10+
+- **Requirements**: `backend/requirements.txt` and `ai/requirements.txt`
+- **Model Weights**: `ai/models/saved_models/crop_disease_model.pt` (included in repository)
+- **Environment Variables**:
+  - `PORT`: Set by hosting provider (default: `8000`)
+  - `ENVIRONMENT`: `production`
+  - `DATABASE_URL`: `sqlite:///./database/crop_health.db` (or PostgreSQL URL)
+  - `MODEL_PATH`: `ai/models/saved_models/crop_disease_model.pt`
+  - `DEMO_MODE`: `true`
+
+### 3. Local Development
 ```bash
-cp .env.example backend/.env
-cp frontend/.env.example frontend/.env
-```
-Refer to [`docs/environment_variables.md`](docs/environment_variables.md) for full parameter definitions.
+# --- Backend ---
+pip install -r backend/requirements.txt -r ai/requirements.txt
+python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
 
-### 3. Nginx Reverse Proxy Configuration
-```nginx
-server {
-    listen 80;
-    server_name leafcheck.agri.io;
-
-    # Serve compiled frontend static files
-    location / {
-        root /var/www/leaf-check/frontend/dist;
-        index index.html;
-        try_files $uri $uri/ /index.html;
-    }
-
-    # Proxy API traffic to FastAPI ASGI backend
-    location /api/ {
-        proxy_pass http://127.0.0.1:8000/api/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
+# --- Frontend ---
+cd frontend
+npm install
+npm run dev
+# Open http://localhost:3000
 ```
 
 ---
